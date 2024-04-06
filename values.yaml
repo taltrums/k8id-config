@@ -1,0 +1,8 @@
+# Disable components that can't monitor SQLite etcd
+kube-prometheus-stack.serverMonitor.enabled: false
+kube-prometheus-stack.alertmanager.enabled: false
+
+# Specify endpoint addresses for components k3s exposes differently
+prometheus-operator.prometheusSpec.remoteWrite[0].url: http://k8s-prometheus-prometheus-server:9090
+prometheus-operator.prometheusSpec.alertmanagerMain: http://k8s-prometheus-alertmanager:9093
+
