@@ -1,52 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "cmd-rest-api.fullname" . }}
-  labels:
-    app: {{ template "cmd-rest-api.name" . }}
-    chart: {{ template "cmd-rest-api.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+  name: cmd-rest-api
 spec:
-  replicas: {{ .Values.replicaCount }}
-  revisionHistoryLimit: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: {{ template "cmd-rest-api.name" . }}
-      release: {{ .Release.Name }}
+      app: cmd-rest-api
   template:
     metadata:
       labels:
-        app: {{ template "cmd-rest-api.name" . }}
-        release: {{ .Release.Name }}
+        app: cmd-rest-api
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: {{ .Values.containerPort }}
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+      - name: cmd-rest-api
+        image: docker.io/mdtalham/cmd-rest-api:latest
+        ports:
+        - containerPort: 8088
+          protocol: TCP
