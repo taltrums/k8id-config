@@ -16,5 +16,5 @@ spec:
       - name: cmd-rest-api
         image: docker.io/mdtalham/cmd-rest-api:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 8088
           protocol: TCP
